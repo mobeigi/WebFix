@@ -26,7 +26,7 @@ static bool s_WebFix_IsRedirectUrlSet = false;
 
 /**
  * Sets the WebFix Redirect URL
- * Call this before calling WebFix_OpenUrl.
+ * Call this before calling WebFix_OpenUrl if 'webfix_redirecturl.txt' is not used.
  *
  * @param url			URL to WebFix Redirection Script
  */
