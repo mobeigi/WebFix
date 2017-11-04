@@ -8,7 +8,7 @@
  * Made by: Byte (https://forums.alliedmods.net/member.php?u=261613)
  * Method by: Boomix (https://forums.alliedmods.net/member.php?u=260232)
  *
- * Version: 1.00
+ * Version: 1.01
  *
  */
 
@@ -127,10 +127,15 @@ public Action WebFix_OpenUrl_OpenTarget(Handle timer, DataPack pack)
   int height = pack.ReadCell();
   
   //Use redirect url for non-hidden windows
-  if (!hidden)
-    Format(url, sizeof(url), "%s?url=%s&width=%d&height=%d", s_WebFix_RedirectUrl, url, width, height);
+  if (!hidden) {
+    //Encode url so provided url parameters are preserved
+    char encodedUrl[WEBFIX_URL_LENGTH];
+    WebFix_UrlEncode(url, encodedUrl, sizeof(encodedUrl));
+    Format(url, sizeof(url), "%s?url=%s&width=%d&height=%d", s_WebFix_RedirectUrl, encodedUrl, width, height);
+  }
   
   //Show VGUI Panel
+  //Use direct url for hidden windows
   Handle panel = CreateKeyValues("data");
 
   KvSetString(panel, "title", title);
@@ -173,5 +178,38 @@ static void WebFix_ReadRedirectUrlFromConfig()
     }
     
     file.Close();
+  }
+}
+
+//Internal Command
+static void WebFix_UrlEncode(const char[] sString, char[] sResult, int len)
+{
+  char sHexTable[] = "0123456789abcdef";
+  int from, to;
+  char c;
+
+  while (from < len) {
+    c = sString[from++];
+    if (c == 0) {
+      sResult[to++] = c;
+      break;
+    }
+    else if(c == ' ')
+      sResult[to++] = '+';
+    else if ((c < '0' && c != '-' && c != '.') ||
+             (c < 'A' && c > '9') ||
+             (c > 'Z' && c < 'a' && c != '_') ||
+             (c > 'z'))
+    {
+      if ((to + 3) > len) {
+        sResult[to] = 0;
+        break;
+      }
+      sResult[to++] = '%';
+      sResult[to++] = sHexTable[c >> 4];
+      sResult[to++] = sHexTable[c & 15];
+    }
+    else
+      sResult[to++] = c;
   }
 }
