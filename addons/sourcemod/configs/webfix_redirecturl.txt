@@ -1,1 +1,1 @@
-https://www.example.com/webfix/redirect.php
+https://www.example.com/webfix/redirect.html
