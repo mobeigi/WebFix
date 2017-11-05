@@ -42,9 +42,9 @@ stock void WebFix_SetRedirectUrl(char[] url)
  * @param client			Client which MOTD window will be opened on.
  * @param title			Window title.
  * @param url			URL to open. Must be prefixed with http:// or https:// protocols.
- * @param hidden			Override type (specific command or group).
- * @param width			Optional pointer to store allow/deny setting. 0 (default) uses clients full screen width.
- * @param height			Optional pointer to store allow/deny setting. 0 (default) uses clients full screen height.
+ * @param hidden			Should window be opened in hidden mode (in the background).
+ * @param width			Width (in pixels) of window for non-hidden mode. 0 (default) uses clients full screen width.
+ * @param height			Height (in pixels) of window for non-hidden mode. 0 (default) uses clients full screen height.
  * @return				true if successful, false if error encountered.
  */
 stock bool WebFix_OpenUrl(int client, const char[] title, const char[] url, bool hidden = false, int width = 0, int height = 0)
@@ -89,9 +89,9 @@ stock bool WebFix_OpenUrl(int client, const char[] title, const char[] url, bool
  *
  * @param title			Window title.
  * @param url			URL to open. Must be prefixed with http:// or https:// protocols.
- * @param hidden			Override type (specific command or group).
- * @param width			Optional pointer to store allow/deny setting. 0 (default) uses clients full screen width.
- * @param height			Optional pointer to store allow/deny setting. 0 (default) uses clients full screen height.
+ * @param hidden			Should window be opened in hidden mode (in the background).
+ * @param width			Width (in pixels) of window for non-hidden mode. 0 (default) uses clients full screen width.
+ * @param height			Height (in pixels) of window for non-hidden mode. 0 (default) uses clients full screen height.
  * @return				true if all successful, false if any errors encountered.
  */
 stock bool WebFix_OpenUrlAll(const char[] title, const char[] url, bool hidden = false, int width = 0, int height = 0)
