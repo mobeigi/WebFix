@@ -1,1 +1,1 @@
-https://www.example.com/webfix/redirect.html
+https://cdn.rawgit.com/InvexByte/WebFix/9eb054ff/web/redirect.html

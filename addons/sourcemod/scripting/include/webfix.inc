@@ -8,7 +8,7 @@
  * Made by: Byte (https://forums.alliedmods.net/member.php?u=261613)
  * Method by: Boomix (https://forums.alliedmods.net/member.php?u=260232)
  *
- * Version: 1.01
+ * Version: 1.02
  *
  */
 
@@ -23,18 +23,6 @@
 //Global statics
 static char s_WebFix_RedirectUrl[WEBFIX_URL_LENGTH];
 static bool s_WebFix_IsRedirectUrlSet = false;
-
-/**
- * Sets the WebFix Redirect URL
- * Call this before calling WebFix_OpenUrl if 'webfix_redirecturl.txt' is not used.
- *
- * @param url			URL to WebFix Redirection Script
- */
-stock void WebFix_SetRedirectUrl(char[] url)
-{
-  Format(s_WebFix_RedirectUrl, sizeof(s_WebFix_RedirectUrl), url);
-  s_WebFix_IsRedirectUrlSet = true;
-}
 
 /**
  * Open a URL on a client using WebFix
@@ -151,7 +139,7 @@ public Action WebFix_OpenUrl_OpenTarget(Handle timer, DataPack pack)
 static void WebFix_ReadRedirectUrlFromConfig()
 {
   char configFilePath[PLATFORM_MAX_PATH];
-  Format(configFilePath, sizeof(configFilePath), "configs/webfix_redirecturl.txt");
+  strcopy(configFilePath, sizeof(configFilePath), "configs/webfix_redirecturl.txt");
   BuildPath(Path_SM, configFilePath, PLATFORM_MAX_PATH, configFilePath);
   
   if (FileExists(configFilePath)) {
@@ -172,8 +160,10 @@ static void WebFix_ReadRedirectUrlFromConfig()
         
         if (StrContains(buffer, "http://", false) != 0 && StrContains(buffer, "https://", false) != 0)
           LogError("Invalid redirect URL read from config file. Only 'http://' and 'https://' are supported.");
-        else
-          WebFix_SetRedirectUrl(buffer);
+        else {
+          strcopy(s_WebFix_RedirectUrl, sizeof(s_WebFix_RedirectUrl), buffer);
+          s_WebFix_IsRedirectUrlSet = true;
+        }
       }
     }
     
